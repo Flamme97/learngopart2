@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	
 
 	"github.com/flamme97/rssagg/internal/database"
 	"github.com/go-chi/chi"
@@ -44,11 +45,12 @@ func main(){
 	if queries == nil {
 		log.Fatal("can't create connection to db connection ", err)
 	}
-
-
-	apiCfg := apiConfig{
-		DB: database.New(conn),
+// reuse the database connection
+	db:= database.New(conn)
+		apiCfg := apiConfig{
+		DB: db,
 	}
+	// infinty loop checking for fechted updatesgo startScraping(db, 10, time.Minute)
 
 	router := chi.NewRouter()
 
